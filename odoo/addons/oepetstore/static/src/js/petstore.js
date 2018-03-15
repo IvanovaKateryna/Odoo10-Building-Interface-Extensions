@@ -12,25 +12,44 @@ odoo.define('oepetstore.petstore', function (require) {
 
 
     var HomePage = Widget.extend({
-        template: "HomePage",
+       template: "HomePage",
         start: function () {
-            return new MessageOfTheDay(this).appendTo(this.$el);
-        },
+            return $.when(
+                new PetToysList(this).appendTo(this.$('.oe_petstore_homepage_left')),
+                new MessageOfTheDay(this).appendTo(this.$('.oe_petstore_homepage_right'))
+            );
+        }
     });
 
     core.action_registry.add('petstore.homepage', HomePage);
 
     var MessageOfTheDay = Widget.extend({
-         template: "MessageOfTheDay",
-         start: function() {
-             var self = this;
-             return new Model("oepetstore.message_of_the_day")
-                 .query(["message"])
-                 .order_by('-create_date', '-id')
-                 .first()
-                 .then(function(result) {
-                     self.$(".oe_mywidget_message_of_the_day").text(result.message);
-                 });
-         },
-     });
+         template: 'MessageOfTheDay',
+        start: function () {
+            var self = this;
+            return new Model('oepetstore.message_of_the_day')
+                .query(["message"])
+                .order_by('-create_date', '-id')
+                .first()
+                .then(function (result) {
+                    self.$(".oe_mywidget_message_of_the_day").text(result.message);
+                });
+        }
+    });
+    var PetToysList = Widget.extend({
+        template: 'PetToysList',
+        start: function () {
+            var self = this;
+            return new Model('product.product')
+                .query(['name', 'image'])
+                .filter([['categ_id.name', '=', "Pet Toys"]])
+                .limit(5)
+                .all()
+                .then(function (results) {
+                    _(results).each(function (item) {
+                        self.$el.append(QWeb.render('PetToy', {item: item}));
+                    });
+                });
+        }
+    });
 })

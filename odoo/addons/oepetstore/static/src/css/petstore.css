@@ -1,6 +1,32 @@
+.oe_petstore_homepage {
+    display: table;
+    width: 100%;
+}
+
+.oe_petstore_homepage_left {
+    display: table-cell;
+    width : 50%;
+}
+
+.oe_petstore_homepage_right {
+    display: table-cell;
+    width : 50%;
+}
+
 .oe_petstore_motd {
     margin: 5px;
     padding: 5px;
     border-radius: 3px;
-    background-color: #F0EEEE;
+    background-color: #FAEBD7;
+}
+
+.oe_petstore_pettoyslist {
+    padding: 5px;
+}
+
+.oe_petstore_pettoy {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #FAEBD7;
 }
