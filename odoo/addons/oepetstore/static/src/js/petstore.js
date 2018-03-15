@@ -11,14 +11,14 @@ odoo.define('oepetstore.petstore', function (require) {
 
     var HomePage = Widget.extend({
         className: 'oe_petstore_homepage',
-        template :  "HomePageTemplate" ,
-        init: function(parent) {
-            this._super(parent);
-            this.name = "KAT";
-        },
+        // template :  "HomePageTemplate" ,
+        // init: function(parent) {
+        //     this._super(parent);
+        //     this.name = "KAT";
+        // },
 
         start: function() {
-            // this.$el.append(QWeb.render("HomePageTemplate", {name: "Kateryna"}));
+            this.$el.append(QWeb.render("HomePageTemplate", {name: "Kateryna"}));
             console.log("pet store home page loaded");
             this.$el.append("<div>Hello dear Odoo user!</div>");
             var greeting = new GreetingsWidget(this);
