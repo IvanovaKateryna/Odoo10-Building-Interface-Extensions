@@ -12,7 +12,7 @@ odoo.define('oepetstore.petstore', function (require) {
 
 
     var HomePage = Widget.extend({
-       template: "HomePage",
+        template: "HomePage",
         start: function () {
             return $.when(
                 new PetToysList(this).appendTo(this.$('.oe_petstore_homepage_left')),
@@ -24,7 +24,7 @@ odoo.define('oepetstore.petstore', function (require) {
     core.action_registry.add('petstore.homepage', HomePage);
 
     var MessageOfTheDay = Widget.extend({
-         template: 'MessageOfTheDay',
+        template: 'MessageOfTheDay',
         start: function () {
             var self = this;
             return new Model('oepetstore.message_of_the_day')
@@ -38,6 +38,9 @@ odoo.define('oepetstore.petstore', function (require) {
     });
     var PetToysList = Widget.extend({
         template: 'PetToysList',
+        events: {
+            'click .oe_petstore_pettoy': 'selected_item',
+        },
         start: function () {
             var self = this;
             return new Model('product.product')
@@ -50,6 +53,14 @@ odoo.define('oepetstore.petstore', function (require) {
                         self.$el.append(QWeb.render('PetToy', {item: item}));
                     });
                 });
-        }
+        },
+        selected_item: function (event) {
+        this.do_action({
+            type: 'ir.actions.act_window',
+            res_model: 'product.product',
+            res_id: $(event.currentTarget).data('id'),
+            views: [[false, 'form']],
+        });
+    },
     });
 })
