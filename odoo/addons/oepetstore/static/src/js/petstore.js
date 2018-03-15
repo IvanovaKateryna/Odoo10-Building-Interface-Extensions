@@ -10,22 +10,36 @@ odoo.define('oepetstore.petstore', function (require) {
 
 
     var HomePage = Widget.extend({
-        className: 'oe_petstore_homepage',
-
+        template: "HomePage",
         start: function() {
-            var products = new ProductsWidget(
-                this, ["cpu", "mouse", "keyboard", "graphic card", "screen"], "#cc91ff");
-            products.appendTo(this.$el);
+            this.colorInput = new ColorInputWidget(this);
+            this.colorInput.on("change:color", this, this.color_changed);
+            return this.colorInput.appendTo(this.$el);
         },
-
+        color_changed: function() {
+            this.$(".oe_color_div").css("background-color", this.colorInput.get("color"));
+            this.$(".oe_color_div2").css("background-color", this.colorInput.get("color"));
+            this.$(".oe_color_div3").css("background-color", this.colorInput.get("color"));
+        },
     });
 
-    var ProductsWidget = Widget.extend({
-        template: "ProductsWidget",
-        init: function(parent, products, color) {
-            this._super(parent);
-            this.products = products;
-            this.color = color;
+    var ColorInputWidget = Widget.extend({
+        template: "ColorInputWidget",
+        events: {
+            'change input': 'input_changed'
+        },
+        start: function() {
+            this.input_changed();
+            return this._super();
+        },
+        input_changed: function() {
+            var color = [
+                "#",
+                this.$(".oe_color_red").val(),
+                this.$(".oe_color_green").val(),
+                this.$(".oe_color_blue").val()
+            ].join('');
+            this.set("color", color);
         },
     });
 
