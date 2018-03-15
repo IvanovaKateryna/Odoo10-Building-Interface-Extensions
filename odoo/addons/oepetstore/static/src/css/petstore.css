@@ -1,35 +1,6 @@
-.oe_color_div {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-    display: inline-block;
-}
-.oe_color_div2 {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-    -moz-border-radius: 50px;
-    -webkit-border-radius: 50px;
-    background: #0f610f;
-    display: inline-block;
-}
-
-.oe_color_div3 {
-    width: 0;
-    height: 0;
-    border-top: 100px solid red;
-    border-right: 200px solid transparent;
-    display: inline-block;
-}
-
-.oe_color_div4 {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-    display: inline-block;
-    background: #0D6759;
-}
-
-#range1 {
-    width: 400px;
+.oe_petstore_motd {
+    margin: 5px;
+    padding: 5px;
+    border-radius: 3px;
+    background-color: #F0EEEE;
 }
