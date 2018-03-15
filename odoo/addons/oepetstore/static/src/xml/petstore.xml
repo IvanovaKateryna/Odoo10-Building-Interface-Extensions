@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <templates xml:space="preserve">
+    <t t-name="RangeInputWidget">
+        <div>
+            <div>Change size of rectangle :D</div>
+            <input type="range" id="range1" min="0" max="200" value="50"></input>
+        </div>
+    </t>
+
     <t t-name="ColorInputWidget">
         <div>
             Red: <input type="text" class="oe_color_red" value="00"></input><br />
@@ -8,11 +15,13 @@
             Blue: <input type="text" class="oe_color_blue" value="00"></input><br />
         </div>
     </t>
+
     <t t-name="HomePage">
         <div>
             <div class="oe_color_div"></div>
             <div class="oe_color_div2"></div>
             <div class="oe_color_div3"></div>
+            <div class="oe_color_div4"></div>
         </div>
     </t>
 </templates>

@@ -20,5 +20,16 @@
     border-top: 100px solid red;
     border-right: 200px solid transparent;
     display: inline-block;
+}
 
+.oe_color_div4 {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    display: inline-block;
+    background: #0D6759;
+}
+
+#range1 {
+    width: 400px;
 }

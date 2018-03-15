@@ -14,7 +14,13 @@ odoo.define('oepetstore.petstore', function (require) {
         start: function() {
             this.colorInput = new ColorInputWidget(this);
             this.colorInput.on("change:color", this, this.color_changed);
-            return this.colorInput.appendTo(this.$el);
+            this.rangeInput = new RangeInputWidget(this);
+            this.rangeInput.on("change:width", this, this.size_changed);
+            return this.colorInput.appendTo(this.$el) && this.rangeInput.appendTo(this.$el);
+        },
+        size_changed: function() {
+            this.$(".oe_color_div4").css("width", this.rangeInput.get("width"));
+            this.$(".oe_color_div4").css("height", this.rangeInput.get("width"));
         },
         color_changed: function() {
             this.$(".oe_color_div").css("background-color", this.colorInput.get("color"));
@@ -39,9 +45,28 @@ odoo.define('oepetstore.petstore', function (require) {
                 this.$(".oe_color_green").val(),
                 this.$(".oe_color_blue").val()
             ].join('');
+
             this.set("color", color);
         },
     });
+
+     var RangeInputWidget = Widget.extend({
+        template: "RangeInputWidget",
+        events: {
+            'change input': 'size_changed'
+        },
+         start: function() {
+            this.size_changed();
+            return this._super();
+        },
+         size_changed: function() {
+            var width = [
+                this.$("#range1").val(),
+                "px"
+            ].join('');
+            this.set("width", width);
+         }
+     });
 
     core.action_registry.add('petstore.homepage', HomePage);
 });
