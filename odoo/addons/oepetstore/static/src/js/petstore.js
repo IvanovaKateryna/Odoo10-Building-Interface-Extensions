@@ -18,7 +18,7 @@ odoo.define('oepetstore.petstore', function (require) {
         // },
 
         start: function() {
-            this.$el.append(QWeb.render("HomePageTemplate", {name: "Kateryna"}));
+            this.$el.append(QWeb.render("HomePageTemplate", {names: ["Kateryna","Dmytro","Nataly","Vitaly"]}));
             console.log("pet store home page loaded");
             this.$el.append("<div>Hello dear Odoo user!</div>");
             var greeting = new GreetingsWidget(this);

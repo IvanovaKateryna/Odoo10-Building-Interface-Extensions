@@ -4,13 +4,20 @@
    <t t-name="HomePageTemplate">
        <div style="background-color: green;">This is some simple HTML</div>
        <div>
-            <t t-if="true == true">
-                true is true
-            </t>
-            <t t-if="true == false">
-                true is not true
+            <t t-foreach="names" t-as="name">
+                <div>
+                    Hello <t t-esc="name"/>
+                </div>
             </t>
        </div>
+       <!--<div>-->
+            <!--<t t-if="true == true">-->
+                <!--true is true-->
+            <!--</t>-->
+            <!--<t t-if="true == false">-->
+                <!--true is not true-->
+            <!--</t>-->
+       <!--</div>-->
        <!--<div><t t-raw="name.link(user_account)"/></div>-->
        <!--<div>Hello <t t-esc="2+5"/></div>-->
        <!--<div>Hello <t t-esc="name.toUpperCase()"/></div>-->
