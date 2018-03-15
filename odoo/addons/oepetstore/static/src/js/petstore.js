@@ -3,6 +3,8 @@ odoo.define('oepetstore.petstore', function (require) {
     var Class = require('web.Class');
     var Widget = require('web.Widget');
     var core = require('web.core');
+    var Model = require('web.Model');
+    var data = require('web.data');
     var utils = require('web.utils');
     var QWeb = core.qweb;
     var _t = core._t;
@@ -10,63 +12,14 @@ odoo.define('oepetstore.petstore', function (require) {
 
 
     var HomePage = Widget.extend({
-        template: "HomePage",
         start: function() {
-            this.colorInput = new ColorInputWidget(this);
-            this.colorInput.on("change:color", this, this.color_changed);
-            this.rangeInput = new RangeInputWidget(this);
-            this.rangeInput.on("change:width", this, this.size_changed);
-            return this.colorInput.appendTo(this.$el) && this.rangeInput.appendTo(this.$el);
-        },
-        size_changed: function() {
-            this.$(".oe_color_div4").css("width", this.rangeInput.get("width"));
-            this.$(".oe_color_div4").css("height", this.rangeInput.get("width"));
-        },
-        color_changed: function() {
-            this.$(".oe_color_div").css("background-color", this.colorInput.get("color"));
-            this.$(".oe_color_div2").css("background-color", this.colorInput.get("color"));
-            this.$(".oe_color_div3").css("background-color", this.colorInput.get("color"));
-        },
-    });
-
-    var ColorInputWidget = Widget.extend({
-        template: "ColorInputWidget",
-        events: {
-            'change input': 'input_changed'
-        },
-        start: function() {
-            this.input_changed();
-            return this._super();
-        },
-        input_changed: function() {
-            var color = [
-                "#",
-                this.$(".oe_color_red").val(),
-                this.$(".oe_color_green").val(),
-                this.$(".oe_color_blue").val()
-            ].join('');
-
-            this.set("color", color);
-        },
-    });
-
-     var RangeInputWidget = Widget.extend({
-        template: "RangeInputWidget",
-        events: {
-            'change input': 'size_changed'
-        },
-         start: function() {
-            this.size_changed();
-            return this._super();
-        },
-         size_changed: function() {
-            var width = [
-                this.$("#range1").val(),
-                "px"
-            ].join('');
-            this.set("width", width);
-         }
-     });
+            var self = this;
+            var model = new Model("oepetstore.message_of_the_day");
+            model.call("my_method", {context: new data.CompoundContext()}).then(function(result) {
+                self.$el.append("<div>Hello " + result["hello"] + "</div>");
+                });
+            },
+        });
 
     core.action_registry.add('petstore.homepage', HomePage);
 });
