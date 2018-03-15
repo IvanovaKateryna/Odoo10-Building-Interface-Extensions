@@ -11,33 +11,21 @@ odoo.define('oepetstore.petstore', function (require) {
 
     var HomePage = Widget.extend({
         className: 'oe_petstore_homepage',
-        // template :  "HomePageTemplate" ,
-        // init: function(parent) {
-        //     this._super(parent);
-        //     this.name = "KAT";
-        // },
 
         start: function() {
-            this.$el.append(QWeb.render("HomePageTemplate", {names: ["Kateryna","Dmytro","Nataly","Vitaly"]}));
-            console.log("pet store home page loaded");
-            this.$el.append("<div>Hello dear Odoo user!</div>");
-            var greeting = new GreetingsWidget(this);
-            return greeting.appendTo(this.$el);
-            console.log(this.getChildren()[0].$el);
-
+            var products = new ProductsWidget(
+                this, ["cpu", "mouse", "keyboard", "graphic card", "screen"], "#cc91ff");
+            products.appendTo(this.$el);
         },
 
     });
 
-    var GreetingsWidget = Widget.extend({
-        className: 'oe_petstore_greetings',
-        init: function(parent, name) {
+    var ProductsWidget = Widget.extend({
+        template: "ProductsWidget",
+        init: function(parent, products, color) {
             this._super(parent);
-            this.name = name;
-        },
-        start: function() {
-            this.$el.append("<div>We are so happy to see you again in this menu!</div>");
-            console.log(this.getParent().$el );
+            this.products = products;
+            this.color = color;
         },
     });
 
