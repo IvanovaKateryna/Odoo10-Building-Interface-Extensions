@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="book_snippet" inherit_id="website.snippets">
+        <!-- points 2, 3 go here /-->
+    </template>
+</odoo>
