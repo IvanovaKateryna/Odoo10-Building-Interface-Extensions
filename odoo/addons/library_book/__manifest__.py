@@ -19,6 +19,7 @@
 
     'data': [
         'views/snippets.xml',
+        'views/assets_frontend.xml',
     ],
 
 }

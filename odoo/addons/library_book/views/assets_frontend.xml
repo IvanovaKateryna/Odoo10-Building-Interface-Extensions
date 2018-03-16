@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="library_frontend_style" name="Library book style" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/library_book/static/src/js/library.js"></script>
+        </xpath>
+    </template>
+</odoo>
