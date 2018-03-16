@@ -11,6 +11,7 @@ odoo.define('oepetstore.petstore', function (require) {
     var _lt = core._lt;
     var form_common = require('web.form_common');
     var AbstractField = form_common.AbstractField;
+    var FormWidget = form_common.FormWidget;
 
 
     var HomePage = Widget.extend({
@@ -65,7 +66,7 @@ odoo.define('oepetstore.petstore', function (require) {
             });
         },
     });
-    var FieldColor = form_common.AbstractField.extend({
+    var FieldColor = AbstractField.extend({
         events: {
             'change input': function (e) {
                 if (!this.get('effective_readonly')) {
@@ -98,19 +99,34 @@ odoo.define('oepetstore.petstore', function (require) {
     });
     core.form_widget_registry.add('color', FieldColor);
 
-    var WidgetCoordinates = form_common.FormWidget.extend({
+    var WidgetCoordinates = FormWidget.extend({
+        events: {
+             'click button': function () {
+                 navigator.geolocation.getCurrentPosition(
+                     this.proxy('received_position'));
+             }
+         },
         start: function() {
-            this._super();
+            var sup = this._super();
             this.field_manager.on("field_changed:provider_latitude", this, this.display_map);
             this.field_manager.on("field_changed:provider_longitude", this, this.display_map);
+            this.on("change:effective_readonly", this, this.display_map);
             this.display_map();
+            return sup;
         },
         display_map: function() {
             this.$el.html(QWeb.render("WidgetCoordinates", {
                 "latitude": this.field_manager.get_field_value("provider_latitude") || 0,
                 "longitude": this.field_manager.get_field_value("provider_longitude") || 0,
             }));
-        }
+            this.$("button").toggle(! this.get("effective_readonly"));
+        },
+         received_position: function(obj) {
+             this.field_manager.set_values({
+                 "provider_latitude": obj.coords.latitude,
+                 "provider_longitude": obj.coords.longitude,
+             });
+         },
     });
 
     core.form_custom_registry.add('coordinates', WidgetCoordinates);
