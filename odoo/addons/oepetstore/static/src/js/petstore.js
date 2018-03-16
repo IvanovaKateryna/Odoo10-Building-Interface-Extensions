@@ -9,6 +9,8 @@ odoo.define('oepetstore.petstore', function (require) {
     var QWeb = core.qweb;
     var _t = core._t;
     var _lt = core._lt;
+    var form_common = require('web.form_common');
+    var AbstractField = form_common.AbstractField;
 
 
     var HomePage = Widget.extend({
@@ -55,12 +57,44 @@ odoo.define('oepetstore.petstore', function (require) {
                 });
         },
         selected_item: function (event) {
-        this.do_action({
-            type: 'ir.actions.act_window',
-            res_model: 'product.product',
-            res_id: $(event.currentTarget).data('id'),
-            views: [[false, 'form']],
-        });
-    },
+            this.do_action({
+                type: 'ir.actions.act_window',
+                res_model: 'product.product',
+                res_id: $(event.currentTarget).data('id'),
+                views: [[false, 'form']],
+            });
+        },
     });
+    var FieldColor = form_common.AbstractField.extend({
+        events: {
+            'change input': function (e) {
+                if (!this.get('effective_readonly')) {
+                    this.internal_set_value($(e.currentTarget).val());
+                }
+            }
+        },
+        init: function() {
+            this._super.apply(this, arguments);
+            this.set("value", "");
+        },
+        start: function() {
+            this.on("change:effective_readonly", this, function() {
+                this.display_field();
+                this.render_value();
+            });
+            this.display_field();
+            return this._super();
+        },
+        display_field: function() {
+            this.$el.html(QWeb.render("FieldColor", {widget: this}));
+        },
+        render_value: function() {
+            if (this.get("effective_readonly")) {
+                this.$(".oe_field_color_content").css("background-color", this.get("value") || "#FFFFFF");
+            } else {
+                this.$("input").val(this.get("value") || "#FFFFFF");
+            }
+        },
+    });
+    core.form_widget_registry.add('color', FieldColor);
 })
